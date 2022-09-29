@@ -1,0 +1,73 @@
+
+#------------------------------------------1------------------------------------------#
+#set hostname for the master node
+hostnamectl set-hostname Master
+
+#set hostname for the Worker1
+hostnamectl set-hostname Worker1
+
+#set hostname for the Worker2
+hostnamectl set-hostname Worker2
+
+#------------------------------------------2------------------------------------------#
+
+#install docker to the 3 nodes
+
+#if docker was installed can be ignored
+yum remove -y docker docker-common docker-selinux docker-engine
+
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+yum list docker-ce --showduplicates | sort -r
+
+yum install -y docker-ce-<VERSION STRING>
+
+#or
+
+yum install -y docker
+
+
+
+systemctl enable docker
+
+systemctl start docker
+
+systemctl status docker
+
+
+#------------------------------------------3------------------------------------------#
+
+#go to master node and init the swarm
+docker swarm init --advertise-addrs [IP]
+
+# you will get some thing like that 
+
+    Swarm initialized: current node (5wbe83tjllj90xbywbpmqlkfs) is now a manager.
+
+
+
+    To add a worker to this swarm, run the following command:
+
+
+
+        docker swarm join --token SWMTKN-1-69dafdor9hh95t7e9gw39c1ebpljxeb9kxyi1obbk889sr1rnz-55tzowcj7fmznu19lakvuu6ka 192.168.10.5:2377
+
+
+
+    To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+#go to the worker node and run this
+docker swarm join --token [TOKEN]
+
+#after finish the nodes go to the master node and run
+docker node ls
+
+#you will get this
+
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+
+5wbe83tjllj90xbywbpmqlkfs *   master              Ready               Active              Leader              19.03.9
+
+krxzjj1kahxcorpzmmlidpy8b     worker1             Ready               Active                                  19.03.9

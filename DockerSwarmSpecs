@@ -1,0 +1,7 @@
+OS: CentOS-7-x86_64-DVD
+
+o Master 4gb Ram ,2cpu, 20 GB Disk
+
+o Worker1 4gb Ram, 2cpu, 20 GB Disk
+
+o Worker2 4gb Ram, 2cpu, 20 GB Disk

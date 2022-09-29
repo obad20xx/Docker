@@ -1,0 +1,14 @@
+#write the image you want to start with
+FROM baseImage
+
+#set the working directory
+WORKDIR /the/workdir/path
+
+#copy your project to a path
+COPY source dest
+
+#expose your ap at a port
+EXPOSE port
+
+#run commands if needed
+CMD [ "executable","parameter",... ]
